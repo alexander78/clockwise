@@ -1,10 +1,14 @@
 package de.clockwise;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import de.clockwise.model.User;
+import de.clockwise.model.UserRole;
 import de.clockwise.persistence.UserRepository;
 
 @Component
@@ -32,6 +36,11 @@ public class DatabaseLoader implements CommandLineRunner {
 		user.setEmail(email);
 		user.setFirstname(firstname);
 		user.setLastname(lastname);
+		UserRole e = new UserRole();
+		HashSet<UserRole> set = new HashSet<>();
+		set.add(e);
+		e.setRoleName("User");
+		user.setUserRoles(set);
 		return user;
 	}
 }
