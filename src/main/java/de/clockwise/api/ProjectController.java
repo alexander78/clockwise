@@ -1,5 +1,7 @@
 package de.clockwise.api;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,4 +44,20 @@ public class ProjectController {
 		projectRepos.deleteById(id);
 		return ResponseEntity.ok().build();
 	}
+	
+	@PutMapping("/save/{id}")
+    public ResponseEntity updateClient(@PathVariable Long id, @RequestBody Project project) {
+        Project currentproject = projectRepos.findById(id).orElseThrow(RuntimeException::new);
+        currentproject.setBezeichnung(project.getBezeichnung());
+        currentproject.setFachId(project.getFachId());
+        currentproject = projectRepos.save(project);
+
+        return ResponseEntity.ok(currentproject);
+    }
+	
+	@PostMapping("/create")
+    public ResponseEntity createClient(@RequestBody Project client) throws URISyntaxException {
+		Project savedProject = projectRepos.save(client);
+        return ResponseEntity.created(new URI("/projects/" + savedProject.getId())).body(savedProject);
+    }
 }
