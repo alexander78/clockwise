@@ -33,31 +33,31 @@ public class ProjectController {
 		found.forEach(C -> projects.add(C));
 		return projects;
 	}
-	
+
 	@GetMapping("/get/{id}")
 	public Project get(@PathVariable long id) {
-        return projectRepos.findById(id).orElseThrow(RuntimeException::new);
-    }
+		return projectRepos.findById(id).orElseThrow(RuntimeException::new);
+	}
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity delete(@PathVariable long id) {
 		projectRepos.deleteById(id);
 		return ResponseEntity.ok().build();
 	}
-	
-	@PutMapping("/save/{id}")
-    public ResponseEntity updateClient(@PathVariable Long id, @RequestBody Project project) {
-        Project currentproject = projectRepos.findById(id).orElseThrow(RuntimeException::new);
-        currentproject.setBezeichnung(project.getBezeichnung());
-        currentproject.setFachId(project.getFachId());
-        currentproject = projectRepos.save(project);
 
-        return ResponseEntity.ok(currentproject);
-    }
-	
+	@PutMapping("/save/{id}")
+	public ResponseEntity updateClient(@PathVariable Long id, @RequestBody Project project) {
+		Project currentproject = projectRepos.findById(id).orElseThrow(RuntimeException::new);
+		currentproject.setBezeichnung(project.getBezeichnung());
+		currentproject.setFachId(project.getFachId());
+		currentproject = projectRepos.save(project);
+
+		return ResponseEntity.ok(currentproject);
+	}
+
 	@PostMapping("/create")
-    public ResponseEntity createClient(@RequestBody Project client) throws URISyntaxException {
+	public ResponseEntity createClient(@RequestBody Project client) throws URISyntaxException {
 		Project savedProject = projectRepos.save(client);
-        return ResponseEntity.created(new URI("/projects/" + savedProject.getId())).body(savedProject);
-    }
+		return ResponseEntity.created(new URI("/projects/" + savedProject.getId())).body(savedProject);
+	}
 }
