@@ -7,7 +7,7 @@ class ProjectEdit extends Component {
 
     emptyItem = {
         bezeichnung: '',
-        fachid: ''
+        fachId: ''
     };
 
     constructor(props) {
@@ -24,6 +24,70 @@ class ProjectEdit extends Component {
             const project = await (await fetch(`/api/project/get/${this.props.match.params.id}`)).json();
             this.setState({item: project});
         }
+    }
+
+    handleChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        let item = {...this.state.item};
+        item[name] = value;
+        this.setState({item});
+    }
+
+    async handleSubmit(event) {
+        event.preventDefault();
+        const {item} = this.state;
+    
+        if(item.id){
+            await fetch('/api/project/save/' + (item.id), {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(item),
+            });
+            this.props.history.push('/projects/'+(item.id));
+        }else{
+            await fetch('/api/project/create', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(item),
+            });
+            this.props.history.push('/projects/new');
+        }
+    }
+
+    render() {
+        const {item} = this.state;
+        const title = <h2>{item.id ? 'Edit Project' : 'Add Project'}</h2>;
+    
+        return <div>
+            <AppNavbar/>
+            <Container>
+                {title}
+                <Form onSubmit={this.handleSubmit}>
+                    <FormGroup>
+                        <Label for="bezeichnung">Bezeichnung</Label>
+                        <Input type="text" name="bezeichnung" id="bezeichnung" value={item.bezeichnung || ''}
+                               onChange={this.handleChange} autoComplete="bezeichnung"/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="fachid">Fachid</Label>
+                        <Input type="text" name="fachId" id="fachId" value={item.fachId || ''}
+                               onChange={this.handleChange} autoComplete="fachId"/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Button color="primary" type="submit">Save</Button>{' '}
+                        <Button color="secondary" tag={Link} to="/projects">Cancel</Button>
+                    </FormGroup>
+                </Form>
+            </Container>
+        </div>
     }
 }
 export default withRouter(ProjectEdit);

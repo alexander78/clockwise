@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import AppNavbar from './AppNavbar';
+import { Link } from 'react-router-dom'
 
 class ProjectList extends Component {
 
@@ -42,36 +43,36 @@ class ProjectList extends Component {
                 <td>{project.fachId}</td>
                 <td>
                     <ButtonGroup>
-                        {/* <Button size="sm" color="primary" tag={Link} to={"/api/project/get/" + project.id}>Edit</Button> */}
+                        <Button size="sm" color="primary" tag={Link} to={"projects/" + project.id}>Edit</Button>
                         <Button size="sm" color="danger" onClick={() => this.remove(project.id)}>Delete</Button>
                     </ButtonGroup>
                 </td>
             </tr>
         });
     
-        return (
-        <div>
-           
-            <Container fluid>
-                {/* <div className="float-right">
-                    <Button color="success" tag={Link} to="/api/project/new">Add Project</Button>
-                < /div>*/}
-                <h3>Projects</h3>
-                <Table className="mt-4">
-                    <thead>
-                    <tr>
-                        <th width="30%">Bezeichnung</th>
-                        <th width="30%">FachId</th>
-                        <th width="40%">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {projectList}
-                    </tbody>
-                </Table>
-            </Container>
-        </div>
-    );                                                                                                                                                                      
+        return <div>
+                <Container fluid>
+                    <AppNavbar/>
+                    <div className="float-right">
+                        <Button color="success" tag={Link} to="/projects/new">Add Project</Button>
+                    < /div>
+                    <h3>Projects</h3>
+                    <Table className="mt-4">
+                        <thead>
+                        <tr>
+                            <th width="30%">Bezeichnung</th>
+                            <th width="30%">FachId</th>
+                            <th width="40%">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {projectList}
+                        </tbody>
+                    </Table>
+                </Container>
+            </div>
+                                                                                                                                                                              
+    }
 }
-}
+
 export default ProjectList;
