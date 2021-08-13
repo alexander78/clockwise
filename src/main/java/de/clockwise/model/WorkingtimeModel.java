@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "userworkingtimemodel")
-public class UserWorkingTimeModel implements Comparable<UserWorkingTimeModel> {
+public class WorkingtimeModel implements Comparable<WorkingtimeModel> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -53,7 +53,7 @@ public class UserWorkingTimeModel implements Comparable<UserWorkingTimeModel> {
 
 	private WorkingModelType workingModelTyp;
 
-	public UserWorkingTimeModel() {
+	public WorkingtimeModel() {
 	}
 
 	public long getId() {
@@ -218,7 +218,7 @@ public class UserWorkingTimeModel implements Comparable<UserWorkingTimeModel> {
 		return count;
 	}
 
-	public void overrideAllPropertiesExceptId(final UserWorkingTimeModel model) {
+	public void overrideAllPropertiesExceptId(final WorkingtimeModel model) {
 		setId(model.getId());
 		setMonday(model.isMonday());
 		setHoursOnMonday(model.getHoursOnMonday());
@@ -239,7 +239,7 @@ public class UserWorkingTimeModel implements Comparable<UserWorkingTimeModel> {
 	}
 
 	@Override
-	public int compareTo(UserWorkingTimeModel o) {
+	public int compareTo(WorkingtimeModel o) {
 		if (this.getValidFrom().equals(o.getValidFrom()) && o.getValidTo().equals(this.getValidTo())) {
 			return 0;
 		}

@@ -36,9 +36,10 @@ public class User {
 	private String personalNr;
 
 	@OneToMany (cascade=CascadeType.ALL)
-	private Set<UserRole> userRoles;
+	private Set<Role> roles;
 
-//	private Set<Project> userProjects;
+	@OneToMany (cascade=CascadeType.ALL)
+	private Set<Project> projects;
 
 	private String externalUserID;
 
@@ -59,7 +60,7 @@ public class User {
 	private String costCentre;
 
 	@OneToMany (cascade=CascadeType.ALL, mappedBy = "user")
-	private List<UserWorkingTimeModel> userWorkingTimeModels;
+	private List<WorkingtimeModel> userWorkingTimeModels;
 
 	public User() {
 	}
@@ -144,21 +145,21 @@ public class User {
 		this.personalNr = personalNr;
 	}
 
-	public Set<UserRole> getUserRoles() {
-		return userRoles;
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-	public void setUserRoles(final Set<UserRole> userRoles) {
-		this.userRoles = userRoles;
+	public void setRoles(final Set<Role> roles) {
+		this.roles = roles;
 	}
 
-//	public Set<Project> getUserProjects() {
-//		return userProjects;
-//	}
-//
-//	public void setUserProjects(final Set<Project> userProjects) {
-//		this.userProjects = userProjects;
-//	}
+	public Set<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(final Set<Project> userProjects) {
+		this.projects = userProjects;
+	}
 
 	public void setExternalUserID(final String externalUserID) {
 		this.externalUserID = externalUserID;
@@ -298,11 +299,11 @@ public class User {
 		this.active = active;
 	}
 
-	public List<UserWorkingTimeModel> getUserWorkingTimeModels() {
+	public List<WorkingtimeModel> getUserWorkingTimeModels() {
 		return userWorkingTimeModels;
 	}
 
-	public void setUserWorkingTimeModels(List<UserWorkingTimeModel> userWorkingTimeModels) {
+	public void setUserWorkingTimeModels(List<WorkingtimeModel> userWorkingTimeModels) {
 		this.userWorkingTimeModels = userWorkingTimeModels;
 	}
 
