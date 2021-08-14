@@ -32,6 +32,7 @@ class UserList extends Component {
                 <td>
                     <ButtonGroup>
                         <Button size="sm" color="primary" tag={Link} to={"users/" + user.id}>Edit</Button>
+                        <Button size="sm" color="primary" tag={Link} to={"workingtimemodels/" + user.id}>Workingtimemodel</Button>
                     </ButtonGroup>
                 </td>
             </tr>
@@ -42,7 +43,7 @@ class UserList extends Component {
                     <AppNavbar/>
                     <div className="float-right">
                         <Button color="success" tag={Link} to="/users/new">Add User</Button>
-                    < /div>
+                    </div>
                     <h3>Users</h3>
                     <Table className="mt-4">
                         <thead>
