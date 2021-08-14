@@ -50,6 +50,9 @@ public class DatabaseLoader implements CommandLineRunner {
 	private void createUserProfile(User user) {
 		User savedUser = this.userRepos.save(user);
 		this.workingRepos.save(createWorkingtimeModel(savedUser));
+		if(user.getFirstname().equals("Alexander")) {
+			this.workingRepos.save(createWorkingtimeModel(savedUser));
+		}
 	}
 
 	private User createUserData(String email, String firstname, String lastname) {

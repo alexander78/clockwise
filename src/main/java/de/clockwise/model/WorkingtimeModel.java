@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "userworkingtimemodel")
+@Table(name = "workingtimemodel")
 public class WorkingtimeModel implements Comparable<WorkingtimeModel> {
 
 	@Id

@@ -46,7 +46,7 @@ public class ProjectController {
 	}
 
 	@PutMapping("/save/{id}")
-	public ResponseEntity updateClient(@PathVariable Long id, @RequestBody Project project) {
+	public ResponseEntity updateProject(@PathVariable Long id, @RequestBody Project project) {
 		Project currentproject = projectRepos.findById(id).orElseThrow(RuntimeException::new);
 		currentproject.setBezeichnung(project.getBezeichnung());
 		currentproject.setFachId(project.getFachId());
@@ -56,8 +56,8 @@ public class ProjectController {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity createClient(@RequestBody Project client) throws URISyntaxException {
-		Project savedProject = projectRepos.save(client);
+	public ResponseEntity createProject(@RequestBody Project project) throws URISyntaxException {
+		Project savedProject = projectRepos.save(project);
 		return ResponseEntity.created(new URI("/projects/" + savedProject.getId())).body(savedProject);
 	}
 }
