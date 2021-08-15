@@ -9,10 +9,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import de.clockwise.model.User;
+import de.clockwise.model.Abruf;
 import de.clockwise.model.Project;
 import de.clockwise.model.Role;
 import de.clockwise.model.WorkingModelType;
 import de.clockwise.model.WorkingtimeModel;
+import de.clockwise.persistence.AbrufRepository;
 import de.clockwise.persistence.ProjectRepository;
 import de.clockwise.persistence.UserRepository;
 import de.clockwise.persistence.WorkingtimeModelRepository;
@@ -23,12 +25,14 @@ public class DatabaseLoader implements CommandLineRunner {
 	private final UserRepository userRepos;
 	private final WorkingtimeModelRepository workingRepos;
 	private final ProjectRepository projectRepos;
+	private final AbrufRepository abrufRepos;
 
 	@Autowired
-	public DatabaseLoader(UserRepository repository, WorkingtimeModelRepository workingRepos, ProjectRepository projectRepos) {
+	public DatabaseLoader(UserRepository repository, WorkingtimeModelRepository workingRepos, ProjectRepository projectRepos, AbrufRepository abrufRepos) {
 		this.userRepos = repository;
 		this.workingRepos = workingRepos;
 		this.projectRepos = projectRepos;
+		this.abrufRepos = abrufRepos;
 	}
 
 	@Override
@@ -92,6 +96,20 @@ public class DatabaseLoader implements CommandLineRunner {
 		Project p = new Project();
 		p.setFachId(fachid);
 		p.setBezeichnung(bezeichnung);
-		projectRepos.save(p);
+		HashSet<Abruf> abrufe = new HashSet<Abruf>();
+		Project save = projectRepos.save(p);
+		abrufe.add(createAbruf(save));
+		abrufe.add(createAbruf(save));
+		
+	}
+
+	private Abruf createAbruf(Project project) {
+		Abruf abruf = new Abruf();
+		abruf.setAbrufNummer(String.valueOf("A-"+ (int)(Math.random()*1000000)));
+		abruf.setRahmenBmNummer("123456798");
+		abruf.setValidFrom(Date.from(Instant.parse("2021-01-01T00:00:00.00Z")));
+		abruf.setValidTo(Date.from(Instant.parse("2021-08-30T00:00:00.00Z")));
+		abruf.setProject(project);
+		return abrufRepos.save(abruf);
 	}
 }

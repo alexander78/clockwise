@@ -2,7 +2,6 @@ package de.clockwise.model;
 
 import java.util.Date;
 
-import javax.annotation.Generated;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -48,7 +47,7 @@ public class WorkingtimeModel implements Comparable<WorkingtimeModel> {
 	private Double hoursPerWeek;
 
 	@ManyToOne
-    @JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	private WorkingModelType workingModelTyp;

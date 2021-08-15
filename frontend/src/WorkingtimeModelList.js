@@ -43,18 +43,20 @@ class WorkingtimeModelList extends Component {
                     <Table className="mt-4">
                         <thead>
                         <tr>
-                            <th width="30%">Urlaubstage</th>
-                            <th width="30%">Gültig von</th>
-                            <th width="30%">Gültig bis</th>
+                            <th width="10%">Urlaubstage</th>
+                            <th width="20%">Gültig von</th>
+                            <th width="20%">Gültig bis</th>
                         </tr>
                         </thead>
                         <tbody>
                         {WorkingtimeModelList}
                         </tbody>
                     </Table>
+                    <div className="float-right">
+                        <Button color="secondary" tag={Link} to="/users">Cancel</Button>
+                    </div>
                 </Container>
             </div>
-                                                                                                                                                                              
     }
 }
 

@@ -20,9 +20,9 @@ public class Abruf {
 
 	private String abrufNummer;
 
-	private Date gueltigVon;
+	private Date validFrom;
 
-	private Date gueltigBis;
+	private Date validTo;
 
 	private double abrufSumme;
 
@@ -51,20 +51,20 @@ public class Abruf {
 		this.abrufNummer = abrufNummer;
 	}
 
-	public Date getGueltigVon() {
-		return gueltigVon;
+	public Date getValidFrom() {
+		return validFrom;
 	}
 
-	public void setGueltigVon(final Date gueltigVon) {
-		this.gueltigVon = gueltigVon;
+	public void setValidFrom(final Date validFrom) {
+		this.validFrom = validFrom;
 	}
 
-	public Date getGueltigBis() {
-		return gueltigBis;
+	public Date getValidTo() {
+		return validTo;
 	}
 
-	public void setGueltigBis(final Date gueltigBis) {
-		this.gueltigBis = gueltigBis;
+	public void setValidTo(final Date validTo) {
+		this.validTo = validTo;
 	}
 
 	public long getId() {
@@ -121,6 +121,10 @@ public class Abruf {
 
 	public void setWaNummer(final String waNummer) {
 		this.waNummer = waNummer;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 }

@@ -48,11 +48,11 @@ class UserList extends Component {
                     <Table className="mt-4">
                         <thead>
                         <tr>
-                            <th width="30%">Vorname</th>
-                            <th width="30%">Nachname</th>
-                            <th width="30%">Email</th>
-                            <th width="30%">PersonalNr</th>
-                            <th width="40%">Actions</th>
+                            <th width="15%">Vorname</th>
+                            <th width="15%">Nachname</th>
+                            <th width="25%">Email</th>
+                            <th width="10%">PersonalNr</th>
+                            <th width="35%">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
