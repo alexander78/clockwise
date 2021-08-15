@@ -8,6 +8,7 @@ import ProjectEdit from "./ProjectEdit";
 import UserEdit from "./UserEdit";
 import WorkingtimeModelList from "./WorkingtimeModelList";
 import AbrufList from "./AbrufList";
+import AbrufEdit from "./AbrufEdit";
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
             <Route path='/users/:id' component={UserEdit}/>
             <Route path='/workingtimemodels/:userid' component={WorkingtimeModelList}/>
             <Route path='/abrufe/:projectid' component={AbrufList}/>
+            <Route path='/abruf/:abrufid/:projectid' component={AbrufEdit}/>
           </Switch>
         </Router>
     )

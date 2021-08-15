@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.clockwise.model.Abruf;
+import de.clockwise.model.Project;
 import de.clockwise.persistence.AbrufRepository;
+import de.clockwise.persistence.ProjectRepository;
 
 @RestController
 @RequestMapping("/api/abruf")
@@ -25,6 +28,8 @@ public class AbrufController {
 
 	@Autowired
 	private AbrufRepository abrufRepos;
+	@Autowired
+	private ProjectRepository projectRepos;
 
 	@GetMapping("/getAll")
 	public List<Abruf> getAll() {
@@ -57,13 +62,15 @@ public class AbrufController {
 		currentAbruf.setValidFrom(abruf.getValidFrom());
 		currentAbruf.setValidTo(abruf.getValidTo());
 		currentAbruf.setRahmenBmNummer(abruf.getRahmenBmNummer());
-		currentAbruf = abrufRepos.save(abruf);
+		currentAbruf = abrufRepos.save(currentAbruf);
 		return ResponseEntity.ok(currentAbruf);
 	}
 
-	@PostMapping("/create")
-	public ResponseEntity createWorkingtimeModel(@RequestBody Abruf abruf) throws URISyntaxException {
+	@PostMapping("/create/{projectId}")
+	public ResponseEntity createWorkingtimeModel(@PathVariable long projectId, @RequestBody Abruf abruf) throws URISyntaxException {
+		Project project = projectRepos.findById(projectId).orElseThrow(RuntimeException::new);
+		abruf.setProject(project);
 		Abruf savedAbruf = abrufRepos.save(abruf);
-		return ResponseEntity.created(new URI("/abrufe/" + savedAbruf.getId())).body(savedAbruf);
+		return ResponseEntity.created(new URI("/abruf/" + savedAbruf.getId()+"/"+projectId)).body(savedAbruf);
 	}
 }
