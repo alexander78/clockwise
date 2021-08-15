@@ -37,12 +37,12 @@ public class DatabaseLoader implements CommandLineRunner {
 
 	@Override
 	public void run(String... strings) throws Exception {
-		createUserProfile(createUserData("alexander.thoms@onlinehome.de", "Alexander", "Thoms"));
-		createUserProfile(createUserData("belia.thoms@onlinehome.de", "Belia", "Thoms"));
-		createUserProfile(createUserData("elias.thoms@onlinehome.de", "Elias", "Thoms"));
-		createUserProfile(createUserData("irmgard.thoms@onlinehome.de", "Irmgard", "Thoms"));
-		createUserProfile(createUserData("sebastian.thoms@onlinehome.de", "Sebasitan", "Thoms"));
-		createUserProfile(createUserData("claudia.thoms@onlinehome.de", "Claudia", "Thoms"));
+		createUserProfile(createUserData("alexander.t@online.de", "Alexander", "Müller"));
+		createUserProfile(createUserData("belia.t@online.de", "Belia", "Müller"));
+		createUserProfile(createUserData("elias.t@online.de", "Elias", "Müller"));
+		createUserProfile(createUserData("irmgard.t@online.de", "Irmgard", "Müller"));
+		createUserProfile(createUserData("sebastian.t@online.de", "Sebasitan", "Müller"));
+		createUserProfile(createUserData("claudia.t@online.de", "Claudia", "Müller"));
 		
 		createProject("I0001-987", "Urlaub");
 		createProject("I0002-987", "Krank");
