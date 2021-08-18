@@ -32,33 +32,33 @@ public class UserController {
 		findAll.forEach(C -> users.add(C));
 		return users;
 	}
-	
+
 	@GetMapping("/get/{id}")
 	public User get(@PathVariable long id) {
-        return userRepos.findById(id).orElseThrow(RuntimeException::new);
-    }
+		return userRepos.findById(id).orElseThrow(RuntimeException::new);
+	}
 
 	@GetMapping("/getByMail/{email}")
 	public User getByMail(@PathVariable String email) {
 		return userRepos.findByEmail(email);
 	}
-	
-	@PutMapping("/save/{id}")
-    public ResponseEntity updateUser(@PathVariable Long id, @RequestBody User user) {
-        User currentUser = userRepos.findById(id).orElseThrow(RuntimeException::new);
-        currentUser.setEmail(user.getEmail());
-        currentUser.setFirstname(user.getFirstname());
-        currentUser.setLastname(user.getLastname());
-        currentUser.setPersonalNr(user.getPersonalNr());
-        currentUser = userRepos.save(user);
 
-        return ResponseEntity.ok(currentUser);
-    }
-	
+	@PutMapping("/save/{id}")
+	public ResponseEntity updateUser(@PathVariable Long id, @RequestBody User user) {
+		User currentUser = userRepos.findById(id).orElseThrow(RuntimeException::new);
+		currentUser.setEmail(user.getEmail());
+		currentUser.setFirstname(user.getFirstname());
+		currentUser.setLastname(user.getLastname());
+		currentUser.setPersonalNr(user.getPersonalNr());
+		currentUser = userRepos.save(user);
+
+		return ResponseEntity.ok(currentUser);
+	}
+
 	@PostMapping("/create")
-    public ResponseEntity createUser(@RequestBody User user) throws URISyntaxException {
+	public ResponseEntity createUser(@RequestBody User user) throws URISyntaxException {
 		User savedUser = userRepos.save(user);
-        return ResponseEntity.created(new URI("/users/" + savedUser.getId())).body(savedUser);
-    }
+		return ResponseEntity.created(new URI("/users/" + savedUser.getId())).body(savedUser);
+	}
 
 }

@@ -16,6 +16,7 @@ import de.clockwise.model.WorkingModelType;
 import de.clockwise.model.WorkingtimeModel;
 import de.clockwise.persistence.AbrufRepository;
 import de.clockwise.persistence.ProjectRepository;
+import de.clockwise.persistence.RoleRepository;
 import de.clockwise.persistence.UserRepository;
 import de.clockwise.persistence.WorkingtimeModelRepository;
 
@@ -26,23 +27,28 @@ public class DatabaseLoader implements CommandLineRunner {
 	private final WorkingtimeModelRepository workingRepos;
 	private final ProjectRepository projectRepos;
 	private final AbrufRepository abrufRepos;
+	private final RoleRepository roleRepos;
 
 	@Autowired
-	public DatabaseLoader(UserRepository repository, WorkingtimeModelRepository workingRepos, ProjectRepository projectRepos, AbrufRepository abrufRepos) {
+	public DatabaseLoader(UserRepository repository, WorkingtimeModelRepository workingRepos, ProjectRepository projectRepos, AbrufRepository abrufRepos, RoleRepository roleRepos) {
 		this.userRepos = repository;
 		this.workingRepos = workingRepos;
 		this.projectRepos = projectRepos;
 		this.abrufRepos = abrufRepos;
+		this.roleRepos = roleRepos;
 	}
 
 	@Override
 	public void run(String... strings) throws Exception {
-		createUserProfile(createUserData("alexander.t@online.de", "Alexander", "Müller"));
-		createUserProfile(createUserData("belia.t@online.de", "Belia", "Müller"));
-		createUserProfile(createUserData("elias.t@online.de", "Elias", "Müller"));
-		createUserProfile(createUserData("irmgard.t@online.de", "Irmgard", "Müller"));
-		createUserProfile(createUserData("sebastian.t@online.de", "Sebasitan", "Müller"));
-		createUserProfile(createUserData("claudia.t@online.de", "Claudia", "Müller"));
+		
+		Role userRole = createRole("ADMIN");
+		
+		createUserProfile(createUserData("alexander.t@online.de", "Alexander", "Müller"), userRole);
+		createUserProfile(createUserData("belia.t@online.de", "Belia", "Müller"), userRole);
+		createUserProfile(createUserData("elias.t@online.de", "Elias", "Müller"), userRole);
+		createUserProfile(createUserData("irmgard.t@online.de", "Irmgard", "Müller"), userRole);
+		createUserProfile(createUserData("sebastian.t@online.de", "Sebasitan", "Müller"), userRole);
+		createUserProfile(createUserData("claudia.t@online.de", "Claudia", "Müller"), userRole);
 		
 		createProject("I0001-987", "Urlaub");
 		createProject("I0002-987", "Krank");
@@ -51,8 +57,12 @@ public class DatabaseLoader implements CommandLineRunner {
 		createProject("E0001-2344", "Clockwise");
 	}
 
-	private void createUserProfile(User user) {
+	private void createUserProfile(User user, Role role) {
 		User savedUser = this.userRepos.save(user);
+		HashSet<Role> roles = new HashSet<Role>();
+		roles.add(role);
+		savedUser.setRoles(roles);
+		this.userRepos.save(savedUser);
 		this.workingRepos.save(createWorkingtimeModel(savedUser));
 		if(user.getFirstname().equals("Alexander")) {
 			this.workingRepos.save(createWorkingtimeModel(savedUser));
@@ -64,12 +74,13 @@ public class DatabaseLoader implements CommandLineRunner {
 		user.setEmail(email);
 		user.setFirstname(firstname);
 		user.setLastname(lastname);
-		Role e = new Role();
-		HashSet<Role> set = new HashSet<>();
-		set.add(e);
-		e.setRoleName("User");
-		user.setRoles(set);
 		return user;
+	}
+	
+	private Role createRole(String name) {
+		Role role = new Role();
+		role.setRoleName(name);
+		return roleRepos.save(role);
 	}
 
 	private WorkingtimeModel createWorkingtimeModel(User user) {

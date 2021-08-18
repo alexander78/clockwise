@@ -27,6 +27,7 @@ class AbrufList extends Component {
     }
       
     filterNames (inputValue) {
+        // eslint-disable-next-line
         const { filtered } = this.state;
         const { abrufe } = this.state;
         this.setState({
@@ -62,10 +63,10 @@ class AbrufList extends Component {
                     <div className="float-right">
                         <Button color="success" tag={Link} to={"../abruf/new/" +this.props.match.params.projectid}>Add Abruf</Button>
                     </div>
-                    <div className="float-right">
-                        <input type="text" onChange={ this.getValueInput }></input>
-                    </div>
                     <h3>Abrufe</h3>
+                    <div className="float-right">
+                        <input type="text" placeholder="Suche Nach AbrufNr..." onChange={ this.getValueInput }></input>
+                    </div>
                     <Table className="mt-4">
                         <thead>
                         <tr>

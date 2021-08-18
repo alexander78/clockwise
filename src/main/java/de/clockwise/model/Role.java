@@ -1,9 +1,13 @@
 package de.clockwise.model;
 
+import java.util.Set;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,9 +18,13 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
+	@Column(unique = true, nullable = false)
 	private String roleName;
 
 	private String roleDescription;
+	
+	@ManyToMany(mappedBy = "roles")
+	private Set<User> likes;
 
 	public Role() {
 	}

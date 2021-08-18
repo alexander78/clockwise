@@ -7,23 +7,40 @@ class UserList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {users: []};
+        this.state = {users: [], filtered: []};
+
+        this.getValueInput = this.getValueInput.bind(this);
     }
 
     componentDidMount() {
         fetch('/api/user/getAll')
             .then(response => response.json())
-            .then(data => this.setState({users: data}));
+            .then(data => this.setState({users: data, filtered: data}));
+    }
+
+    getValueInput (evt) {
+        const inputValue = evt.target.value;
+        this.setState({ filtered: inputValue });
+        this.filterNames(inputValue);
+    }
+      
+    filterNames (inputValue) {
+        // eslint-disable-next-line
+        const { filtered, users } = this.state;
+        this.setState({
+          filtered: users.filter(item => 
+             item.email.includes(inputValue)),
+          });
     }
 
     render() {
-        const {users, isLoading} = this.state;
+        const {filtered, isLoading} = this.state;
     
         if (isLoading) {
             return <p>Loading...</p>;
         }
     
-        const userList = users.map(user => {
+        const userList = filtered.map(user => {
             return <tr key={user.id}>
                 <td style={{whiteSpace: 'nowrap'}}>{user.firstname}</td>
                 <td>{user.lastname}</td>
@@ -45,6 +62,9 @@ class UserList extends Component {
                         <Button color="success" tag={Link} to="/users/new">Add User</Button>
                     </div>
                     <h3>Users</h3>
+                    <div className="float-right">
+                        <input type="text" placeholder="Suche nach email..." onChange={ this.getValueInput }></input>
+                    </div>
                     <Table className="mt-4">
                         <thead>
                         <tr>

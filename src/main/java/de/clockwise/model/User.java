@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -27,6 +31,7 @@ public class User {
 
 	private String lastName;
 
+	@Column(nullable = false, unique = true)
 	private String email;
 
 	private String password;
@@ -35,10 +40,11 @@ public class User {
 
 	private String personalNr;
 
-	@OneToMany (cascade=CascadeType.ALL)
+	@ManyToMany
+	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 
-	@OneToMany (cascade=CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Project> projects;
 
 	private String externalUserID;
@@ -59,7 +65,7 @@ public class User {
 
 	private String costCentre;
 
-	@OneToMany (cascade=CascadeType.ALL, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<WorkingtimeModel> userWorkingTimeModels;
 
 	public User() {

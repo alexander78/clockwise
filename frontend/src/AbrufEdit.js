@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import AppNavbar from './AppNavbar';
+import SimpleWriteApi from './api/SimpleWriteApi';
 
 class AbrufEdit extends Component {
 
@@ -42,24 +43,10 @@ class AbrufEdit extends Component {
         const {item} = this.state;
     
         if(item.id){
-            await fetch('/api/abruf/save/' + (item.id), {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(item),
-            });
+            await SimpleWriteApi.doFetch('/api/abruf/save/' + (item.id), 'PUT', item, "Abruf");
             this.props.history.push('/abruf/'+(item.id)+'/'+(this.props.match.params.projectid));
         }else{
-            await fetch('/api/abruf/create/'+(this.props.match.params.projectid), {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(item),
-            });
+            await SimpleWriteApi.doFetch('/api/abruf/create/'+(this.props.match.params.projectid), 'POST', item, "Abruf");
             this.props.history.push('/abruf/new/'+(this.props.match.params.projectid));
         }
     }

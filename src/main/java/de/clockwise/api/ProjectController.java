@@ -50,7 +50,7 @@ public class ProjectController {
 		Project currentproject = projectRepos.findById(id).orElseThrow(RuntimeException::new);
 		currentproject.setBezeichnung(project.getBezeichnung());
 		currentproject.setFachId(project.getFachId());
-		currentproject = projectRepos.save(project);
+		currentproject = projectRepos.save(currentproject);
 
 		return ResponseEntity.ok(currentproject);
 	}

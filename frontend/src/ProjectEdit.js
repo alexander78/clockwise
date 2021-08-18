@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import AppNavbar from './AppNavbar';
+import SimpleWriteApi from './api/SimpleWriteApi';
 
 class ProjectEdit extends Component {
 
@@ -40,24 +41,10 @@ class ProjectEdit extends Component {
         const {item} = this.state;
     
         if(item.id){
-            await fetch('/api/project/save/' + (item.id), {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(item),
-            });
+            await SimpleWriteApi.doFetch('/api/project/save/' + (item.id), 'PUT', item,"Project");
             this.props.history.push('/projects/'+(item.id));
         }else{
-            await fetch('/api/project/create', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(item),
-            });
+            await SimpleWriteApi.doFetch('/api/project/create/', 'POST', item, "Project");
             this.props.history.push('/projects/new');
         }
     }
@@ -74,12 +61,12 @@ class ProjectEdit extends Component {
                     <FormGroup>
                         <Label for="bezeichnung">Bezeichnung</Label>
                         <Input type="text" name="bezeichnung" id="bezeichnung" value={item.bezeichnung || ''}
-                               onChange={this.handleChange} autoComplete="bezeichnung"/>
+                               onChange={this.handleChange} />
                     </FormGroup>
                     <FormGroup>
                         <Label for="fachid">Fachid</Label>
                         <Input type="text" name="fachId" id="fachId" value={item.fachId || ''}
-                               onChange={this.handleChange} autoComplete="fachId"/>
+                               onChange={this.handleChange} />
                     </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Save</Button>{' '}

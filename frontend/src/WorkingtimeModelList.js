@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Container, Table } from 'reactstrap';
+import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import { Link } from 'react-router-dom'
 
@@ -30,6 +30,11 @@ class WorkingtimeModelList extends Component {
                 <td style={{whiteSpace: 'nowrap'}}>{model.vacationDays}</td>
                 <td>{model.validFrom}</td>
                 <td>{model.validTo}</td>
+                <td>
+                    <ButtonGroup>
+                        <Button size="sm" color="primary" tag={Link} to={"../workingtimemodel/" + model.id + "/"+this.props.match.params.userid}>Edit</Button>
+                    </ButtonGroup>
+                </td>
             </tr>
         });
     
@@ -37,15 +42,16 @@ class WorkingtimeModelList extends Component {
                 <Container fluid>
                     <AppNavbar/>
                     <div className="float-right">
-                        <Button color="success" tag={Link} to="/workingtimemodel/new">Add Workingtimemodel</Button>
+                        <Button color="success" tag={Link} to={"/workingtimemodel/new/" + this.props.match.params.userid}>Add Workingtimemodel</Button>
                     </div>
                     <h3>Workingtimemodels</h3>
                     <Table className="mt-4">
                         <thead>
                         <tr>
-                            <th width="10%">Urlaubstage</th>
-                            <th width="20%">Gültig von</th>
-                            <th width="20%">Gültig bis</th>
+                            <th width="20%">Urlaubstage</th>
+                            <th width="25%">Gültig von</th>
+                            <th width="25%">Gültig bis</th>
+                            <th width="30%">Actions</th>
                         </tr>
                         </thead>
                         <tbody>

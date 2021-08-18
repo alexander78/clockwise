@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.clockwise.model.Abruf;
+import de.clockwise.model.Project;
+import de.clockwise.model.User;
 import de.clockwise.model.WorkingtimeModel;
+import de.clockwise.persistence.UserRepository;
 import de.clockwise.persistence.WorkingtimeModelRepository;
 
 @RestController
@@ -25,6 +29,9 @@ public class WorkingtimeModelController {
 
 	@Autowired
 	private WorkingtimeModelRepository workingtimeModelRepos;
+	
+	@Autowired
+	private UserRepository userRepos;
 
 	@GetMapping("/getAll")
 	public List<WorkingtimeModel> getAll() {
@@ -57,13 +64,15 @@ public class WorkingtimeModelController {
 		currentModel.setValidFrom(model.getValidFrom());
 		currentModel.setValidTo(model.getValidTo());
 		currentModel.setWorkingModelTyp(model.getWorkingModelTyp());
-		currentModel = workingtimeModelRepos.save(model);
+		currentModel = workingtimeModelRepos.save(currentModel);
 		return ResponseEntity.ok(currentModel);
 	}
 
-	@PostMapping("/create")
-	public ResponseEntity createWorkingtimeModel(@RequestBody WorkingtimeModel model) throws URISyntaxException {
+	@PostMapping("/create/{userId}")
+	public ResponseEntity createWorkingtimeModel(@PathVariable long userId, @RequestBody WorkingtimeModel model) throws URISyntaxException {
+		User user = userRepos.findById(userId).orElseThrow(RuntimeException::new);
+		model.setUser(user);
 		WorkingtimeModel savedModel = workingtimeModelRepos.save(model);
-		return ResponseEntity.created(new URI("/workingtimemodels/" + savedModel.getId())).body(savedModel);
+		return ResponseEntity.created(new URI("/workingtimemodel/" + savedModel.getId())).body(savedModel);
 	}
 }
