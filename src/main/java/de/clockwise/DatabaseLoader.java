@@ -3,15 +3,16 @@ package de.clockwise;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import de.clockwise.model.User;
 import de.clockwise.model.Abruf;
 import de.clockwise.model.Project;
 import de.clockwise.model.Role;
+import de.clockwise.model.User;
 import de.clockwise.model.WorkingModelType;
 import de.clockwise.model.WorkingtimeModel;
 import de.clockwise.persistence.AbrufRepository;
@@ -41,14 +42,17 @@ public class DatabaseLoader implements CommandLineRunner {
 	@Override
 	public void run(String... strings) throws Exception {
 		
-		Role userRole = createRole("ADMIN");
+		HashSet set = new HashSet<Role>();
+		set.add(createRole("ADMIN"));
+		set.add(createRole("USER"));
+		createRole("PROJECTMANAGER");
 		
-		createUserProfile(createUserData("alexander.t@online.de", "Alexander", "Müller"), userRole);
-		createUserProfile(createUserData("belia.t@online.de", "Belia", "Müller"), userRole);
-		createUserProfile(createUserData("elias.t@online.de", "Elias", "Müller"), userRole);
-		createUserProfile(createUserData("irmgard.t@online.de", "Irmgard", "Müller"), userRole);
-		createUserProfile(createUserData("sebastian.t@online.de", "Sebasitan", "Müller"), userRole);
-		createUserProfile(createUserData("claudia.t@online.de", "Claudia", "Müller"), userRole);
+		createUserProfile(createUserData("alexander.t@online.de", "Alexander", "Müller"), set);
+		createUserProfile(createUserData("belia.t@online.de", "Belia", "Müller"), set);
+		createUserProfile(createUserData("elias.t@online.de", "Elias", "Müller"), set);
+		createUserProfile(createUserData("irmgard.t@online.de", "Irmgard", "Müller"), set);
+		createUserProfile(createUserData("sebastian.t@online.de", "Sebasitan", "Müller"), set);
+		createUserProfile(createUserData("claudia.t@online.de", "Claudia", "Müller"), set);
 		
 		createProject("I0001-987", "Urlaub");
 		createProject("I0002-987", "Krank");
@@ -57,10 +61,8 @@ public class DatabaseLoader implements CommandLineRunner {
 		createProject("E0001-2344", "Clockwise");
 	}
 
-	private void createUserProfile(User user, Role role) {
+	private void createUserProfile(User user, Set<Role> roles) {
 		User savedUser = this.userRepos.save(user);
-		HashSet<Role> roles = new HashSet<Role>();
-		roles.add(role);
 		savedUser.setRoles(roles);
 		this.userRepos.save(savedUser);
 		this.workingRepos.save(createWorkingtimeModel(savedUser));

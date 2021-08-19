@@ -50,6 +50,7 @@ class UserList extends Component {
                     <ButtonGroup>
                         <Button size="sm" color="primary" tag={Link} to={"users/" + user.id}>Edit</Button>
                         <Button size="sm" color="primary" tag={Link} to={"workingtimemodels/" + user.id}>Workingtimemodel</Button>
+                        <Button size="sm" color="primary" tag={Link} to={"userroles/" + user.id}>Userroles</Button>
                     </ButtonGroup>
                 </td>
             </tr>

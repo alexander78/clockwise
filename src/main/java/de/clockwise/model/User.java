@@ -41,7 +41,7 @@ public class User {
 	private String personalNr;
 
 	@ManyToMany
-	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable (name="user_roles", joinColumns={ @JoinColumn(name="user_id") }, inverseJoinColumns={ @JoinColumn(name="role_id") })
 	private Set<Role> roles;
 
 	@OneToMany(cascade = CascadeType.ALL)
@@ -157,6 +157,11 @@ public class User {
 
 	public void setRoles(final Set<Role> roles) {
 		this.roles = roles;
+	}
+	
+	public void removeRole(Role role) {
+		this.roles.remove(role);
+		role.removeUser(this);
 	}
 
 	public Set<Project> getProjects() {

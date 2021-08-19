@@ -24,7 +24,7 @@ public class Role {
 	private String roleDescription;
 	
 	@ManyToMany(mappedBy = "roles")
-	private Set<User> likes;
+	private Set<User> users;
 
 	public Role() {
 	}
@@ -51,6 +51,11 @@ public class Role {
 
 	public void setRoleDescription(final String roleDescription) {
 		this.roleDescription = roleDescription;
+	}
+
+	public void removeUser(User user) {
+		users.remove(user);
+		user.removeRole(this);
 	}
 
 }
