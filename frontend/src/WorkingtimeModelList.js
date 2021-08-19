@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavbar';
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 class WorkingtimeModelList extends Component {
 
@@ -66,4 +66,4 @@ class WorkingtimeModelList extends Component {
     }
 }
 
-export default WorkingtimeModelList;
+export default withRouter(WorkingtimeModelList);

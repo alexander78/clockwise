@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavbar';
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 class ProjectList extends Component {
 
@@ -56,7 +56,7 @@ class ProjectList extends Component {
                     <AppNavbar/>
                     <div className="float-right">
                         <Button color="success" tag={Link} to="/projects/new">Add Project</Button>
-                    < /div>
+                    </div>
                     <h3>Projects</h3>
                     <Table className="mt-4">
                         <thead>
@@ -76,4 +76,4 @@ class ProjectList extends Component {
     }
 }
 
-export default ProjectList;
+export default withRouter(ProjectList);

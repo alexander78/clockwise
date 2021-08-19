@@ -62,12 +62,13 @@ public class RoleController {
 	
 	@DeleteMapping("/removeFromUser/{userid}/{roleid}")
 	public ResponseEntity removeFromUser(@PathVariable long userid, @PathVariable long roleid) {
-		Optional<Role> findById = roleRepos.findById(roleid);
-		Optional<User> findById2 = userRepos.findById(userid);
-		if(findById.isPresent() && findById2.isPresent()) {
-			findById2.get().removeRole(findById.get());
-		}
-		userRepos.save(findById2.get());
+		roleRepos.deleteFromUser(userid, roleid);
+		return ResponseEntity.ok().build();
+	}
+	
+	@PutMapping("/addToUser/{userid}/{roleid}")
+	public ResponseEntity addToUser(@PathVariable long userid, @PathVariable long roleid) {
+		roleRepos.addToUser(userid, roleid);
 		return ResponseEntity.ok().build();
 	}
 

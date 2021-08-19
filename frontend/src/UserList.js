@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavbar';
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 class UserList extends Component {
 
@@ -60,7 +60,7 @@ class UserList extends Component {
                 <Container fluid>
                     <AppNavbar/>
                     <div className="float-right">
-                        <Button color="success" tag={Link} to="/users/new">Add User</Button>
+                        <Button color="success" tag={Link} to="users/new">Add User</Button>
                     </div>
                     <h3>Users</h3>
                     <div className="float-right">
@@ -86,4 +86,4 @@ class UserList extends Component {
     }
 }
 
-export default UserList;
+export default withRouter(UserList);

@@ -17,9 +17,10 @@ export default class AppNavbar extends Component {
 
     render() {
         return <Navbar color="dark" dark expand="md">
-            <NavbarBrand tag={Link} to="/">Home</NavbarBrand>
+            <NavbarBrand tag={Link} to="/">ClockWise</NavbarBrand>
             <NavbarBrand tag={Link} to="/projects">Projects</NavbarBrand>
             <NavbarBrand tag={Link} to="/users">Users</NavbarBrand>
+            <NavbarBrand tag={Link} to="/roles">Roles</NavbarBrand>
         </Navbar>;
     }
 }

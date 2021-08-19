@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Table, ButtonGroup, Container, Form, FormGroup } from 'reactstrap';
+import { Button, Table, ButtonGroup, Container, Form } from 'reactstrap';
 import AppNavbar from './AppNavbar';
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import RoleSelectionComponent from './RoleSelectionComponent';
+import SimpleWriteApi from './api/SimpleWriteApi';
 
 class UserroleList extends Component {
 
@@ -15,6 +16,8 @@ class UserroleList extends Component {
                 name: ""
             };
             this.remove = this.remove.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
+            this.handleRoleSelectionChange = this.handleRoleSelectionChange.bind(this);
         }
 
     async componentDidMount() {
@@ -29,33 +32,33 @@ class UserroleList extends Component {
     }
 
     async remove(roleId) {
-        await fetch(`/api/role/removeFromUser/${roleId}`, {
+        await fetch(`/api/role/removeFromUser/${this.props.match.params.userid}/${roleId}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
         }).then(() => {
-            let updatedroles = [...this.state.userroles].filter(i => i.roleId !== roleId);
+            let updatedroles = [...this.state.userroles].filter(i => i.id !== roleId);
             this.setState({userroles: updatedroles});
         });
     }
 
     async handleSubmit(event) {
         event.preventDefault();
-        const {item} = this.state;
+        const {id, name} = this.state;
     
-        if(item.id){
-        //     await SimpleWriteApi.doFetch('/api/user/addRole/'+(item.id), 'PUT', item, "User");
-        //     this.props.history.push('/users/'+(item.id));
-        // }else{
-        //     await SimpleWriteApi.doFetch('/api/user/create', 'POST', item, "User");
-        //     this.props.history.push('/users/new');
+        if(id){
+            SimpleWriteApi.doFetch(`/api/role/addToUser/${this.props.match.params.userid}/`+(id), 'PUT', "", name);
+            this.props.history.push(`/userroles/${this.props.match.params.userid}`);
         }
     }
 
     async handleRoleSelectionChange(event){
-        console.log(event.target.value)
+        const {selectOptions} = this.state;
+        let filteredRole = [...selectOptions].filter(role => role.roleName === event.target.value)[0];
+        console.log(filteredRole);
+        this.setState({ id: filteredRole.id, name: filteredRole.roleName});
     }
 
     render() {
@@ -65,12 +68,12 @@ class UserroleList extends Component {
             return <p>Loading...</p>;
         }
         const UserRoleList = userroles.map(role => {
-            return <tr key={role.roleId}>
+            return <tr key={role.id}>
                 <td style={{whiteSpace: 'nowrap'}}>{role.roleName}</td>
                 <td>{role.roleDescription}</td>
                 <td>
                     <ButtonGroup>
-                        <Button size="sm" color="danger" onClick={() => this.remove(role.roleId)}>Delete</Button>
+                        <Button size="sm" color="danger" onClick={() => this.remove(role.id)}>Delete</Button>
                     </ButtonGroup>
                 </td>
             </tr>
@@ -112,4 +115,4 @@ class UserroleList extends Component {
     }
 }
 
-export default UserroleList;
+export default withRouter(UserroleList);
